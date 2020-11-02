@@ -10,7 +10,7 @@ from matplotlib import style
 
 data = pd.read_csv("student-mat.csv", sep=";")
 
-data = data[["G1", "G2", "G3", "studytime", "failures", "absences"]]
+data = data[["G1", "G2", "G3"]]
 
 predict = "G3"
 
@@ -20,7 +20,7 @@ y = np.array(data[predict])
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size = 0.1)
 '''
 best = 0
-for _ in range(30):
+for _ in range(1000):
 	x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size = 0.1)
 	linear = linear_model.LinearRegression()
 	linear.fit(x_train, y_train)
@@ -31,6 +31,7 @@ for _ in range(30):
 		with open("studentmodel.pickle", "wb") as f:
 			pickle.dump(linear, f)
 			'''
+
 pickle_in = open("studentmodel.pickle", "rb")
 linear = pickle.load(pickle_in)
 
@@ -50,5 +51,9 @@ pyplot.xlabel(p)
 pyplot.ylabel("Final Grade")
 pyplot.show()
 
+new_observation = [[ 6, 10]]
+
+pr = linear.predict(new_observation)
+print(pr)
 
 
